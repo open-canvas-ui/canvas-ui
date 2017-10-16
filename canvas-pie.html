@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<canvas id="demo">您的浏览器不支持canvas</canvas>
+</body>
+</html>
+<script>
+    var canvas = document.getElementById("demo");
+    canvas.style.cssText = "border:1px solid pink;background-color:pink;";
+    canvas.width = 500;
+    canvas.height = 500;
+    var ctx = canvas.getContext("2d");
+    // fack data
+    var mockData = [
+        {
+            "value": .4,
+            "color": "red",
+            "title": "part-01"
+        },
+        {
+            "value": .2,
+            "color": "blue",
+            "title": "part-02"
+        },
+        {
+            "value": .3,
+            "color": "green",
+            "title": "part-03"
+        },
+        {
+            "value": .1,
+            "color": "gray",
+            "title": "part-04"
+        }
+    ];
+    var circle = {x: 250, y: 250, radius: 180}; // 定义一个圆对象 , 圆心坐标 o(250,250) 半径r=250
+    var wordPoint = {x: 0, y: 0}; // 定义一个文字坐标对象
+    var start, end; // 初始化起点和终点
+    start = end = 0;
+    // 开始画图:由于每个数据所占的比值在已经在数据中存在，我们可以直接去得到数组中的数据来进行绘图
+    for (var i = 0, len = mockData.length; i < len; i++) {
+        var item = mockData[i]; // 准备好当前数据
+        ctx.beginPath(); // 开始或重置路径
+        ctx.fillStyle = item.color; // 准备好当前色彩
+        start = end; // 让开始度数 = 结束度数
+        end = item.value * 360 + start; // 计算圆弧度数并给该项数据终点赋值
+        ctx.moveTo(circle.x, circle.y); // 画笔移动到圆心
+        // 开始画圆弧
+        ctx.arc(circle.x, circle.y, circle.radius, start * Math.PI / 180, end * Math.PI / 180);
+        ctx.fill(); // 填充弧度
+
+        var wordEnd = start + item.value * 360 / 2;
+        wordPoint.x = (circle.radius + 50) * Math.cos(wordEnd * Math.PI / 180) + circle.x;
+        wordPoint.y = (circle.radius + 50) * Math.sin(wordEnd * Math.PI / 180) + circle.y;
+        // 填充文字
+        ctx.font="italic small-caps bold 12px arial";
+        ctx.fillText(item.value * 100 + "%", wordPoint.x, wordPoint.y);
+    }
+</script>
