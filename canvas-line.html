@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<canvas id="demo">
+    您的浏览器不支持canvas，建议使用最新版的Chrome
+</canvas>
+</body>
+</html>
+
+<script>
+    var canvas = document.getElementById("demo");
+    canvas.width = 500;
+    canvas.height = 500;
+    canvas.style.cssText = "background:pink;border:1px solid red;margin:10px;";
+    var ctx = canvas.getContext("2d");
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "red";
+    var cell_w = 20;
+    var cell_h = 20;
+
+    // 画出横向的线条
+    for(var i = 1; i <canvas.width / cell_w; i++) {
+        ctx.moveTo(0, i* cell_w); // 移动到坐标
+        ctx.lineTo(canvas.width, i * cell_w); // 开始画线
+    }
+
+    // 画出纵向的线条
+    for(var j = 1; j < canvas.height / cell_h; j++) {
+        ctx.moveTo(j * cell_h, 0); // 移动到坐标
+        ctx.lineTo(j * cell_h, canvas.height); // 开始画线
+    }
+    ctx.stroke();
+</script>
